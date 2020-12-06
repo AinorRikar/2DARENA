@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class DamageableObject : UnityEngine.MonoBehaviour
+public class DamageableObject : MonoBehaviour
 {
+    public delegate void OnObjectDie(DamageableObject obj);
+    public static event OnObjectDie ObjectDieEvent;
+
     //PUBLIC
     public float healtPoints;
 
     public UnityEvent hitEvent;
-    public UnityEvent deathEvent;
 
     //PRIVATE
 
@@ -36,7 +38,8 @@ public class DamageableObject : UnityEngine.MonoBehaviour
 
     private void Die()
     {
-        //EventAggregator.DamageableObjectDied.Publish(this);
+        ObjectDieEvent.Invoke(this);
         Destroy(gameObject);
+        //EventAggregator.DamageableObjectDied.Publish(isPlayer);
     }
 }

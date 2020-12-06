@@ -5,16 +5,17 @@ using UnityEngine;
 
 public class DamageableObjectDiedEvent
 {
-    private readonly List<Action<DamageableObject>> _callbacks = new List<Action<DamageableObject>>();
+    private readonly List<Action<bool>> _callbacks = new List<Action<bool>>();
 
-    public void Subscribe(Action<DamageableObject> callback)
+    public void Subscribe(Action<bool> callback)
     {
         _callbacks.Add(callback);
     }
 
-    public void Publish(DamageableObject obj)
+    public void Publish(bool a_isPlayer)
     {
-        foreach (Action<DamageableObject> callback in _callbacks)
-            callback(obj);
+        Debug.Log("Died!");
+        foreach (Action<bool> callback in _callbacks)
+            callback(a_isPlayer);
     }
 }

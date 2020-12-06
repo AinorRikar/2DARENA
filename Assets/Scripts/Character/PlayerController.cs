@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : DamageableObject
+public class PlayerController : MonoBehaviour
 {
     //PUBLIC
+    public int health;
     public float speed;
     
     public GameObject eyes;
@@ -13,7 +14,9 @@ public class PlayerController : DamageableObject
     public Sprite[] eyesArray;
 
     public Joystick joystick;
-    
+
+    public delegate void OnPlayerDie();
+    public static event OnPlayerDie PlayerDieEvent;
     //PRIVATE
     private Vector2 moveVelocity;
     private Rigidbody2D rb;
@@ -23,6 +26,11 @@ public class PlayerController : DamageableObject
     public void setFacing(int f)
     {
         facing = f;
+    }
+
+    public void TakeDamage(int f)
+    {
+        health -= f;
     }
 
     private void Start()
@@ -37,6 +45,11 @@ public class PlayerController : DamageableObject
         if (joystick.Horizontal != 0 || joystick.Vertical != 0)
             moveInput = new Vector2(joystick.Horizontal, joystick.Vertical);
         moveVelocity = moveInput.normalized * speed;
+
+        if(health <= 0)
+        {
+            PlayerDieEvent.Invoke();
+        }
     }
 
     private void FixedUpdate()

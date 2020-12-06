@@ -167,7 +167,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70d4814dc22f396449ba6ec0664f2eab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 2
+  stoppingDistance: 0
+  retreatDistance: 0
+  difficulty: 1
+  damage: 1
   healtPoints: 20
+  attackRange: 1.1
+  attackCoolDown: 2
   hitEvent:
     m_PersistentCalls:
       m_Calls:
@@ -183,9 +190,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  speed: 1
-  stoppingDistance: 0
-  retreatDistance: 0
 --- !u!1001 &7849904351038333900
 PrefabInstance:
   m_ObjectHideFlags: 0

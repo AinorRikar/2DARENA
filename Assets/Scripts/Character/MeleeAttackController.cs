@@ -28,7 +28,7 @@ public class MeleeAttackController : MonoBehaviour
             Collider2D[] enemies = Physics2D.OverlapCircleAll(attackPos.position, attackRange, damageableLayerMask);
             for (int i = 0; i < enemies.Length; i++)
             {
-                enemies[i].GetComponent<DamageableObject>().TakeDamage(damage);
+                enemies[i].GetComponent<Enemy>().TakeDamage(damage);
             }
             timeCD = fullCDTime;
             canAttack = false;
@@ -64,12 +64,12 @@ public class MeleeAttackController : MonoBehaviour
             {
                 if (attackJoystick.Horizontal > 0)
                 {
-                    Debug.Log("RIGHT");
+                    //Debug.Log("RIGHT");
                     gameObject.GetComponent<PlayerController>().setFacing(0);
                 }
                 if (attackJoystick.Horizontal < 0)
                 {
-                    Debug.Log("LEFT");
+                    //Debug.Log("LEFT");
                     gameObject.GetComponent<PlayerController>().setFacing(1);
                 }
             }
@@ -77,12 +77,12 @@ public class MeleeAttackController : MonoBehaviour
             {
                 if (attackJoystick.Vertical > 0)
                 {
-                    Debug.Log("UP");
+                    //Debug.Log("UP");
                     gameObject.GetComponent<PlayerController>().setFacing(2);
                 }
                 if (attackJoystick.Vertical < 0)
                 {
-                    Debug.Log("DOWN");
+                    //Debug.Log("DOWN");
                     gameObject.GetComponent<PlayerController>().setFacing(3);
                 }
             }

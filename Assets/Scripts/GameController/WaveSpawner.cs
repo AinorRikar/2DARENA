@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class WaveSpawner : MonoBehaviour
 {
+    public delegate void OnWaveStart(int a_wave, int a_enemies);
+    public static event OnWaveStart WaveStartEvent;
+
     public GameObject[] units;
     public int startCount;
     public float waveMod;
@@ -29,12 +32,13 @@ public class WaveSpawner : MonoBehaviour
         {
             if (timer <= 0)
             {
+                waveN++;
                 timer = wavePause;
                 for (int i = 0; i < Mathf.RoundToInt(waveCount); i++)
                 {
                     Spawn();
                 }
-                waveN++;
+                WaveStartEvent.Invoke(waveN, Mathf.RoundToInt(waveCount));
                 waveCount = waveCount * waveMod;
             }
             else
