@@ -10,6 +10,7 @@ public class MeleeAttackController : MonoBehaviour
     public Transform attackPoint;
     public LayerMask damageableLayerMask;
     public float damage;
+    public int attackAngle;
     public Joystick attackJoystick;
 
     //PRIVATE
@@ -17,6 +18,7 @@ public class MeleeAttackController : MonoBehaviour
     private Animator anim;
     private bool canAttack;
     private float attackRange;
+    private Vector2 dir;
 
     public void Attack()
     {
@@ -28,7 +30,12 @@ public class MeleeAttackController : MonoBehaviour
             Collider2D[] enemies = Physics2D.OverlapCircleAll(attackPos.position, attackRange, damageableLayerMask);
             for (int i = 0; i < enemies.Length; i++)
             {
-                enemies[i].GetComponent<Enemy>().TakeDamage(damage);
+                Transform playerPos = GetComponent<Transform>();
+                Transform enemyPos = enemies[i].GetComponent<Transform>();
+                Vector2 dirToEnemy = (enemyPos.position - playerPos.position).normalized;
+                float angle = Vector3.Angle(dir, dirToEnemy);
+                if(angle <= attackAngle / 2)
+                    enemies[i].GetComponent<Enemy>().TakeDamage(damage);
             }
             timeCD = fullCDTime;
             canAttack = false;
@@ -65,11 +72,13 @@ public class MeleeAttackController : MonoBehaviour
                 if (attackJoystick.Horizontal > 0)
                 {
                     //Debug.Log("RIGHT");
+                    dir = new Vector2(1f, 0f);
                     gameObject.GetComponent<PlayerController>().setFacing(0);
                 }
                 if (attackJoystick.Horizontal < 0)
                 {
                     //Debug.Log("LEFT");
+                    dir = new Vector2(-1f, 0f);
                     gameObject.GetComponent<PlayerController>().setFacing(1);
                 }
             }
@@ -78,11 +87,13 @@ public class MeleeAttackController : MonoBehaviour
                 if (attackJoystick.Vertical > 0)
                 {
                     //Debug.Log("UP");
+                    dir = new Vector2(0f, 1f);
                     gameObject.GetComponent<PlayerController>().setFacing(2);
                 }
                 if (attackJoystick.Vertical < 0)
                 {
                     //Debug.Log("DOWN");
+                    dir = new Vector2(0f, -1f);
                     gameObject.GetComponent<PlayerController>().setFacing(3);
                 }
             }
